@@ -1,0 +1,724 @@
+<title>ERA Publisher Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+
+<style>
+:root {
+  --surface: #fdeef1;
+  --ground: #ffffff;
+  --panel: #fffbfc;
+  --sunk: #f4f6fb;
+  --ink: #1c2434;
+  --ink-2: #4a5468;
+  --muted: #8a92a4;
+  --line: #ecedf4;
+  --line-2: #dde0ec;
+  --primary: #6d63e8;
+  --primary-soft: #ebe9ff;
+  --green: #0f7a52; --green-soft: #dcf3e8;
+  --amber: #96610d; --amber-soft: #fbeed6;
+  --red: #b3261e;   --red-soft: #ffe6e3;
+  --shadow-1: 0 1px 2px rgba(28,36,52,.04);
+  --shadow-2: 0 1px 2px rgba(28,36,52,.03), 0 6px 24px -10px rgba(93,86,180,.16);
+  --r-sm: 8px; --r-md: 12px; --r-lg: 20px; --r-full: 999px;
+}
+:root:not([data-theme="light"]) {
+  @media (prefers-color-scheme: dark) {
+    --surface: #14161f; --ground: #1a1d27; --panel: #191c26; --sunk: #262a3a;
+    --ink: #eef0f7; --ink-2: #c0c6d6; --muted: #8b93a8;
+    --line: #2c3142; --line-2: #3a4054;
+    --primary: #a9a2ff; --primary-soft: #272843;
+    --green: #6fd3a6; --green-soft: #133227;
+    --amber: #e0bb7d; --amber-soft: #322715;
+    --red: #ffb0a8; --red-soft: #3a1c1a;
+    --shadow-1: 0 1px 2px rgba(0,0,0,.35);
+    --shadow-2: 0 1px 2px rgba(0,0,0,.35), 0 8px 28px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"] {
+  --surface: #14161f; --ground: #1a1d27; --panel: #191c26; --sunk: #262a3a;
+  --ink: #eef0f7; --ink-2: #c0c6d6; --muted: #8b93a8;
+  --line: #2c3142; --line-2: #3a4054;
+  --primary: #a9a2ff; --primary-soft: #272843;
+  --green: #6fd3a6; --green-soft: #133227;
+  --amber: #e0bb7d; --amber-soft: #322715;
+  --red: #ffb0a8; --red-soft: #3a1c1a;
+  --shadow-1: 0 1px 2px rgba(0,0,0,.35);
+  --shadow-2: 0 1px 2px rgba(0,0,0,.35), 0 8px 28px -12px rgba(0,0,0,.7);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font-family: "Hanken Grotesk", -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px; line-height: 1.68; -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3,h4 { margin: 0; line-height: 1.22; letter-spacing: -.022em; text-wrap: balance; }
+h1 { font-size: 2.3rem; font-weight: 800; }
+h2 { font-size: 1.5rem; font-weight: 700; margin-top: 8px; }
+h3 { font-size: 1.08rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .86em;
+  background: var(--sunk); border-radius: 5px; padding: .12em .38em;
+}
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- Khung ---------- */
+.top {
+  position: sticky; top: 0; z-index: 30; height: 62px;
+  display: flex; align-items: center; gap: 16px; padding: 0 22px;
+  background: var(--ground); border-bottom: 1px solid var(--line);
+}
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; }
+.logo .mark {
+  width: 30px; height: 30px; border-radius: var(--r-sm); background: var(--primary);
+  color: #fff; display: grid; place-items: center; font-size: 15px; font-weight: 800;
+}
+.top .sp { flex: 1; }
+.search-wrap { position: relative; width: min(340px, 46vw); }
+#q {
+  width: 100%; border: 1.5px solid transparent; border-radius: var(--r-full);
+  background: var(--sunk); color: var(--ink); font: inherit; font-size: 14px;
+  padding: 9px 16px 9px 38px; outline: none; transition: border-color .15s, background .15s;
+}
+#q:focus { border-color: var(--primary); background: var(--ground); }
+.search-wrap svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+#kq {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 40;
+  background: var(--ground); border-radius: var(--r-md); box-shadow: var(--shadow-2);
+  border: 1px solid var(--line); padding: 6px; max-height: 60vh; overflow-y: auto; display: none;
+}
+#kq.mo { display: block; }
+#kq a { display: block; padding: 9px 12px; border-radius: var(--r-sm); color: var(--ink); text-decoration: none; }
+#kq a:hover, #kq a.chon { background: var(--primary-soft); color: var(--primary); }
+#kq .t { font-weight: 600; font-size: 13.5px; }
+#kq .s { font-size: 11.5px; color: var(--muted); }
+#kq .rong { padding: 14px 12px; font-size: 13px; color: var(--muted); }
+
+.shell { display: grid; grid-template-columns: 268px minmax(0,1fr) 210px; align-items: start; }
+
+/* ---------- Thanh bên ---------- */
+.side {
+  position: sticky; top: 62px; height: calc(100vh - 62px); overflow-y: auto;
+  background: var(--panel); border-right: 1px solid var(--line); padding: 24px 14px 40px;
+}
+.side .nhom {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); padding: 18px 12px 7px;
+}
+.side .nhom:first-child { padding-top: 0; }
+.side a {
+  display: block; padding: 8px 12px; border-radius: var(--r-full);
+  font-size: 14px; color: var(--ink-2); text-decoration: none;
+}
+.side a:hover { background: var(--sunk); color: var(--ink); }
+.side a.dang { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
+
+/* ---------- Nội dung ---------- */
+main { padding: 40px 44px 100px; min-width: 0; max-width: 78ch; }
+section { scroll-margin-top: 78px; margin-bottom: 52px; }
+section > * + * { margin-top: 14px; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--primary); }
+.lede { font-size: 1.1rem; color: var(--ink-2); }
+
+ul, ol { margin: 0; padding-left: 22px; }
+li + li { margin-top: 7px; }
+li::marker { color: var(--muted); }
+
+.hop {
+  background: var(--panel); border-radius: var(--r-md); padding: 16px 18px;
+  border-left: 3px solid var(--primary);
+}
+.hop.luuy { border-left-color: var(--amber); background: var(--amber-soft); }
+.hop.canh { border-left-color: var(--red); background: var(--red-soft); }
+.hop.meo  { border-left-color: var(--green); background: var(--green-soft); }
+.hop .nhan { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 5px; }
+.hop.luuy .nhan { color: var(--amber); } .hop.canh .nhan { color: var(--red); }
+.hop.meo .nhan { color: var(--green); }  .hop .nhan { color: var(--primary); }
+
+.buoc { counter-reset: b; display: flex; flex-direction: column; gap: 14px; }
+.buoc > li { counter-increment: b; list-style: none; position: relative; padding-left: 42px; }
+.buoc > li::before {
+  content: counter(b); position: absolute; left: 0; top: -1px;
+  width: 28px; height: 28px; border-radius: var(--r-full);
+  background: var(--primary-soft); color: var(--primary);
+  display: grid; place-items: center; font-size: 13px; font-weight: 700;
+}
+/* Chỉ chữ đậm MỞ ĐẦU bước mới xuống dòng riêng. Trước đây khai cho mọi thẻ
+   đậm nên chữ nhấn giữa câu cũng bị tách dòng, đọc rất gãy. */
+.buoc > li > b:first-child { display: block; margin-bottom: 1px; }
+
+.tbl { overflow-x: auto; border-radius: var(--r-md); border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--panel); }
+tbody tr:last-child td { border-bottom: none; }
+
+.the-luoi { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 14px; }
+.the {
+  background: var(--panel); border-radius: var(--r-md); padding: 16px 18px;
+  box-shadow: var(--shadow-1);
+}
+.the h3 { font-size: 14.5px; margin-bottom: 4px; }
+.the p { font-size: 13.5px; color: var(--ink-2); }
+
+.duong { height: 1px; background: var(--line); border: 0; margin: 44px 0; }
+
+/* ---------- Mục lục phải ---------- */
+.toc { position: sticky; top: 62px; padding: 40px 18px; font-size: 12.5px; }
+.toc b { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.toc a { display: block; padding: 5px 0; color: var(--ink-2); text-decoration: none; border-left: 2px solid var(--line); padding-left: 11px; }
+.toc a:hover { color: var(--ink); }
+.toc a.dang { color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+
+@media (max-width: 1180px) { .shell { grid-template-columns: 250px minmax(0,1fr); } .toc { display: none; } }
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .side { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  main { padding: 28px 20px 70px; }
+  h1 { font-size: 1.85rem; }
+}
+</style>
+
+<header class="top">
+  <div class="logo"><span class="mark">E</span> ERA Publisher</div>
+  <span class="sp"></span>
+  <div class="search-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+    <input id="q" type="search" placeholder="Tìm tính năng… (bấm /)" autocomplete="off" aria-label="Tìm trong tài liệu">
+    <div id="kq" role="listbox"></div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="side" id="side">
+    <div class="nhom">Bắt đầu</div>
+    <a href="#gioi-thieu">ERA Publisher là gì</a>
+    <a href="#dang-nhap">Đăng nhập lần đầu</a>
+    <a href="#doanh-nghiep">Doanh nghiệp và thành viên</a>
+    <a href="#buoc-dau">Ba việc cần làm ngay</a>
+
+    <div class="nhom">Làm nội dung</div>
+    <a href="#tong-quan">Tổng quan</a>
+    <a href="#soan-bai">Soạn bài</a>
+    <a href="#ai-anh">Tạo ảnh bằng AI</a>
+    <a href="#lich">Lịch nội dung</a>
+    <a href="#bai-dang">Bài đăng</a>
+
+    <div class="nhom">Đo lường</div>
+    <a href="#hieu-qua">Hiệu quả</a>
+    <a href="#chi-so">Hiểu các chỉ số</a>
+
+    <div class="nhom">Dữ liệu và cấu hình</div>
+    <a href="#thu-vien">Thư viện nội dung</a>
+    <a href="#sheet">Nguồn Google Sheet</a>
+    <a href="#kenh">Kênh kết nối</a>
+    <a href="#cai-dat">Cài đặt</a>
+
+    <div class="nhom">Khi gặp trục trặc</div>
+    <a href="#su-co">Xử lý sự cố</a>
+    <a href="#gioi-han">Giới hạn đã biết</a>
+  </nav>
+
+  <main>
+    <section id="gioi-thieu">
+      <div class="eyebrow">Bắt đầu</div>
+      <h1>ERA Publisher</h1>
+      <p class="lede">Soạn một lần, đăng lên nhiều mạng xã hội, hẹn giờ, và đo xem bài nào hiệu quả.</p>
+      <p>Thay vì mở từng ứng dụng Facebook, Instagram rồi đăng lại cùng một nội dung, bạn viết
+        một lần ở đây và chọn những kênh muốn đăng. Bài có thể đăng ngay hoặc hẹn giờ. Sau khi
+        đăng, hệ thống tự lấy số liệu về để bạn biết bài nào được đón nhận.</p>
+
+      <div class="the-luoi">
+        <div class="the"><h3>Đăng nhiều kênh</h3><p>Facebook và Instagram cùng lúc, mỗi kênh có thể dùng nội dung riêng.</p></div>
+        <div class="the"><h3>Hẹn giờ</h3><p>Đặt lịch trước, hệ thống tự đăng đúng giờ kể cả khi bạn không mở máy.</p></div>
+        <div class="the"><h3>Tạo ảnh bằng AI</h3><p>Mô tả bằng lời, hoặc chỉnh sửa ảnh sản phẩm sẵn có.</p></div>
+        <div class="the"><h3>Đo hiệu quả</h3><p>Số liệu tự về, so sánh giữa các kỳ, xếp hạng theo kênh và chủ đề.</p></div>
+      </div>
+
+      <div class="hop">
+        <span class="nhan">Dành cho ai</span>
+        Chủ shop và nhân viên marketing. Bạn không cần biết kỹ thuật — mọi thứ cần chỉnh đều
+        nằm trong màn Cài đặt.
+      </div>
+    </section>
+
+    <section id="dang-nhap">
+      <h2>Đăng nhập lần đầu</h2>
+      <p>Có hai cách vào hệ thống. Cách nhanh nhất là dùng tài khoản Google.</p>
+      <ol class="buoc">
+        <li><b>Bấm "Tiếp tục với Google"</b> ở trang đăng nhập, rồi chọn tài khoản Gmail của bạn.</li>
+        <li><b>Hệ thống tự lập một doanh nghiệp</b> mang tên tài khoản Google và cho bạn làm chủ sở hữu.</li>
+        <li><b>Đổi tên doanh nghiệp</b> trong Cài đặt, vì tên tự đặt hiếm khi đúng ý.</li>
+      </ol>
+      <p>Nếu người khác đã thêm email của bạn vào doanh nghiệp của họ trước, bạn sẽ vào thẳng
+        doanh nghiệp đó thay vì lập mới.</p>
+
+      <h3>Dùng mật khẩu</h3>
+      <p>Bạn cũng có thể đặt mật khẩu riêng: vào <b>Cài đặt → Tài khoản của tôi</b>, gõ mật khẩu
+        mới hai lần. Sau đó vào được bằng cả hai cách.</p>
+      <p>Quên mật khẩu thì bấm dòng <b>"Quên mật khẩu? Gửi thư đặt lại"</b> ở dưới nút Đăng nhập,
+        điền email, rồi làm theo liên kết trong thư.</p>
+      <div class="hop luuy">
+        <span class="nhan">Lưu ý</span>
+        Không ai xem được mật khẩu của bạn, kể cả quản trị viên. Mật khẩu được mã hóa một chiều
+        nên không thể đọc ngược lại. Quản trị chỉ có thể gửi cho bạn thư đặt lại.
+      </div>
+    </section>
+
+    <section id="doanh-nghiep">
+      <h2>Doanh nghiệp và thành viên</h2>
+      <p>Mỗi doanh nghiệp có kênh, bài viết, số liệu và cấu hình <b>hoàn toàn riêng</b>. Một người
+        có thể thuộc nhiều doanh nghiệp cùng lúc.</p>
+
+      <h3>Chuyển giữa các doanh nghiệp</h3>
+      <p>Bấm vào tên doanh nghiệp ở thanh bên trái, ngay dưới logo. Danh sách hiện ra kèm vai trò
+        của bạn ở từng nơi. Chọn cái khác là toàn bộ dữ liệu trên màn hình đổi theo.</p>
+
+      <h3>Lập thêm doanh nghiệp</h3>
+      <p>Cũng trong danh sách đó, bấm <b>"+ Lập doanh nghiệp mới"</b>. Mỗi tài khoản lập được tối
+        đa hai doanh nghiệp. Doanh nghiệp được người khác mời vào thì không tính vào giới hạn.</p>
+
+      <h3>Thêm người vào doanh nghiệp</h3>
+      <p>Vào <b>Cài đặt → Doanh nghiệp &amp; hệ thống → Thành viên</b>, gõ email rồi chọn quyền.
+        Không cần gửi thư mời: nếu email đó chưa có tài khoản, lời mời nằm chờ sẵn và họ vào
+        thẳng khi đăng nhập Google lần đầu bằng đúng email ấy.</p>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Vai trò</th><th>Làm được gì</th></tr></thead>
+          <tbody>
+            <tr><td><b>Chủ sở hữu</b></td><td>Toàn quyền. Người lập doanh nghiệp, không gỡ được.</td></tr>
+            <tr><td><b>Quản trị</b></td><td>Sửa cấu hình, nối kênh, thêm và gỡ thành viên, đặt khóa AI.</td></tr>
+            <tr><td><b>Thành viên</b></td><td>Soạn bài, đăng bài, xem hiệu quả. Không sửa được cấu hình.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="buoc-dau">
+      <h2>Ba việc cần làm ngay</h2>
+      <p>Tài khoản mới chưa có gì cả. Làm ba việc này theo thứ tự là dùng được:</p>
+      <ol class="buoc">
+        <li><b>Nối Facebook.</b> Vào <b>Kênh kết nối</b>, bấm "Kết nối Facebook", đăng nhập rồi
+          chọn Page. Instagram nối kèm tự động nếu Page của bạn đã liên kết với tài khoản
+          Instagram doanh nghiệp.</li>
+        <li><b>Đặt múi giờ và email cảnh báo.</b> Vào <b>Cài đặt → Doanh nghiệp &amp; hệ thống →
+          Cấu hình hệ thống</b>. Email cảnh báo là nơi nhận thông báo khi bài đăng lỗi.</li>
+        <li><b>Đăng thử một bài.</b> Vào <b>Soạn bài</b>, chọn kênh, viết vài dòng, bấm Đăng bài.
+          Xong thì kiểm tra ở màn <b>Bài đăng</b>.</li>
+      </ol>
+    </section>
+
+    <hr class="duong">
+
+    <section id="tong-quan">
+      <div class="eyebrow">Làm nội dung</div>
+      <h2>Tổng quan</h2>
+      <p>Màn hình đầu tiên khi mở ứng dụng. Nó trả lời bốn câu theo đúng thứ tự bạn thường hỏi.</p>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Khối</th><th>Cho biết điều gì</th></tr></thead>
+          <tbody>
+            <tr><td>Dải cảnh báo trên cùng</td><td>Bài đăng lỗi và kênh sắp hết hạn. Chỉ hiện khi thật sự có việc — không thấy gì nghĩa là mọi thứ êm.</td></tr>
+            <tr><td>Ô số lớn</td><td>Tổng lượt tiếp cận 30 ngày, kèm mức tăng giảm so với 30 ngày liền trước.</td></tr>
+            <tr><td>Biểu đồ cột</td><td>Sáu tuần gần nhất. Cột cuối là tuần đang chạy nên thường thấp hơn vì tuần chưa hết.</td></tr>
+            <tr><td>Viết nhanh</td><td>Gõ ý tưởng vào, bấm nút là mang thẳng nội dung sang màn Soạn bài.</td></tr>
+            <tr><td>Thẻ từng kênh</td><td>Lượt tiếp cận và số bài của mỗi kênh trong kỳ.</td></tr>
+            <tr><td>Bài đăng gần đây</td><td>Bốn bài mới nhất kèm số tương tác.</td></tr>
+            <tr><td>Sắp đăng</td><td>Bài đã hẹn giờ, sắp theo thứ tự thời gian. Bấm vào để sửa.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="hop meo">
+        <span class="nhan">Mẹo</span>
+        Thấy ô "Lỗi, cần xem lại" có số thì bấm thẳng vào — nó dẫn tới danh sách đúng những bài
+        đó, không phải tự đi tìm.
+      </div>
+    </section>
+
+    <section id="soan-bai">
+      <h2>Soạn bài</h2>
+      <p>Chia thành sáu bước có đánh số. Không bắt buộc làm đúng thứ tự, nhưng làm từ trên xuống
+        là thuận nhất.</p>
+
+      <ol class="buoc">
+        <li><b>Chọn kênh đăng.</b> Bấm vào cả dòng để bật hoặc tắt một kênh. Kênh đang chọn có
+          viền tím. Ở chế độ <b>Nâng cao</b>, mỗi kênh còn viết được caption riêng và bình luận
+          đầu tiên tự động.</li>
+        <li><b>Định dạng bài.</b> Ảnh, Carousel, Reel, Story hoặc Video. Định dạng quyết định
+          cách bài hiển thị trên nền tảng.</li>
+        <li><b>Hình ảnh và video.</b> Bấm vào vùng gạch đứt để chọn tệp. Ảnh tải lên hiện thành
+          ô vuông nhỏ, bấm vào ô để xem to, bấm dấu X để bỏ.</li>
+        <li><b>Nội dung.</b> Viết caption. Số ký tự hiện ở đầu thẻ và chuyển đỏ khi vượt giới hạn
+          của nền tảng. Có nút chèn emoji, chèn hashtag, và nút tạo ảnh bằng AI.</li>
+        <li><b>Phân loại.</b> Gắn Pillar, Angle và Chiến dịch. Không bắt buộc, nhưng gắn thì màn
+          Hiệu quả mới so được chủ đề nào ăn hơn.</li>
+        <li><b>Thời gian đăng.</b> Bật "Hẹn giờ đăng" rồi chọn ngày giờ. Không bật thì bài đăng
+          ngay khi bấm nút.</li>
+      </ol>
+
+      <p>Nút <b>Đăng bài</b> và <b>Hủy</b> nằm ở góc trên bên phải, cạnh tiêu đề trang.</p>
+
+      <h3>Bản xem trước</h3>
+      <p>Cột bên phải hiện bài trong khung điện thoại, đúng bố cục thật của từng nền tảng. Chuyển
+        tab phía trên để xem bản của kênh khác. Bấm vào khung để xem toàn màn hình.</p>
+
+      <div class="hop luuy">
+        <span class="nhan">Pillar và Angle khác nhau chỗ nào</span>
+        <b>Pillar</b> là chủ đề lớn — bài này nói về cái gì (ví dụ: Sản phẩm, Khách hàng, Hậu trường).
+        <b>Angle</b> là cách kể — bài kể chuyện đó theo kiểu gì (ví dụ: Kể chuyện, So sánh, Hướng dẫn).
+        Cùng một chủ đề vẫn kể được nhiều kiểu, và biết kiểu nào ăn hơn là thứ chỉ nhìn Pillar sẽ không thấy.
+      </div>
+    </section>
+
+    <section id="ai-anh">
+      <h2>Tạo ảnh bằng AI</h2>
+      <p>Trong bước Nội dung, bấm nút <b>AI tạo ảnh</b>. Có ba cách dùng:</p>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Chế độ</th><th>Dùng khi nào</th></tr></thead>
+          <tbody>
+            <tr><td><b>Tả bằng lời</b></td><td>Chưa có ảnh nào, muốn AI vẽ từ đầu theo mô tả.</td></tr>
+            <tr><td><b>Dựa trên ảnh có sẵn</b></td><td>Có ảnh rồi, muốn AI đổi bối cảnh hoặc phong cách.</td></tr>
+            <tr><td><b>Giữ nguyên sản phẩm</b></td><td>Đổi nền nhưng giữ sản phẩm nguyên vẹn.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Chọn số ảnh muốn tạo, bấm <b>Tạo ảnh</b>, đợi kết quả rồi chọn ảnh ưng ý và bấm dùng.</p>
+
+      <h3>Bộ nhận diện thương hiệu</h3>
+      <p>Trong <b>Cài đặt → AI sinh ảnh</b> bạn đặt được ba thứ áp dụng cho mọi ảnh AI tạo ra:</p>
+      <ul>
+        <li><b>Mô tả phong cách</b> — đoạn văn ghép vào mọi lệnh, để ảnh nhất quán thay vì mỗi lần một kiểu.</li>
+        <li><b>Logo</b> — chèn vào ảnh sau khi tạo, chọn được vị trí, kích thước, độ đậm.</li>
+        <li><b>Watermark</b> — lớp chữ mờ tùy chọn, lặp chéo khắp ảnh hoặc đặt một góc.</li>
+      </ul>
+      <div class="hop">
+        <span class="nhan">Vì sao logo không do AI vẽ</span>
+        Model AI vẽ chữ rất hay sai — sai nét, sai màu, sai chính tả. Logo phải đúng tuyệt đối
+        nên hệ thống ghép bằng tay sau khi AI tạo xong ảnh.
+      </div>
+
+      <div class="hop luuy">
+        <span class="nhan">Về tốc độ</span>
+        Chọn nhiều ảnh với Gemini sẽ lâu hơn theo cấp số nhân, vì Gemini chỉ trả một ảnh mỗi lần
+        gọi. OpenAI thì một lần gọi ra nhiều ảnh.
+      </div>
+    </section>
+
+    <section id="lich">
+      <h2>Lịch nội dung</h2>
+      <p>Xem toàn bộ bài theo tháng hoặc tuần.</p>
+      <ul>
+        <li><b>Lọc theo kênh</b> — dải nút ở góc trên bên phải. Chọn "Tất cả" hoặc một Page cụ thể.
+          Có hai Page Facebook thì lọc riêng được từng cái.</li>
+        <li><b>Kéo thả để đổi giờ</b> — kéo bài sang ngày khác, hệ thống hỏi giờ trong ngày đó.
+          Chỉ bài đã hẹn giờ mới kéo được.</li>
+        <li><b>Bấm vào ngày trống</b> để soạn bài mới hẹn sẵn vào ngày đó.</li>
+      </ul>
+    </section>
+
+    <section id="bai-dang">
+      <h2>Bài đăng</h2>
+      <p>Danh sách mọi bài đã đăng, đang chờ và bị lỗi. Đây là nơi kiểm tra bài đã lên chưa và
+        xử lý khi có trục trặc.</p>
+      <ul>
+        <li><b>Bốn ô số ở trên bấm được</b> để lọc nhanh — bấm "Lỗi" là chỉ còn bài lỗi.</li>
+        <li><b>Mở bài thật</b> trên Facebook hoặc Instagram bằng liên kết trong từng bài.</li>
+        <li><b>Thử đăng lại</b> khi bài lỗi, sau khi đã sửa nguyên nhân.</li>
+        <li><b>Sửa</b> bài chưa tới giờ đăng.</li>
+      </ul>
+      <div class="hop canh">
+        <span class="nhan">Cảnh báo</span>
+        Nút Xóa hiện chỉ xóa bài khỏi ERA Publisher, <b>không xóa bài thật</b> trên Facebook hay
+        Instagram. Muốn gỡ bài thật thì phải vào ứng dụng của nền tảng đó.
+      </div>
+    </section>
+
+    <hr class="duong">
+
+    <section id="hieu-qua">
+      <div class="eyebrow">Đo lường</div>
+      <h2>Hiệu quả</h2>
+      <p>Báo cáo chi tiết sau khi đăng. Một trang cuộn dài, đi từ tổng quan xuống chi tiết.</p>
+      <ul>
+        <li><b>Lọc thời gian</b> — 7, 30, 90 ngày, tháng này, tháng trước, hoặc tự chọn khoảng.
+          So được với kỳ liền trước hoặc cùng kỳ năm ngoái.</li>
+        <li><b>Bốn chỉ số chính</b> kèm mức tăng giảm và đường xu hướng nhỏ.</li>
+        <li><b>Xếp hạng theo tám chiều</b> — kênh, định dạng, giờ đăng, thứ trong tuần, Pillar,
+          Angle, chiến dịch, độ dài caption.</li>
+        <li><b>Bảng chi tiết</b> ở cuối — sắp xếp, lọc, và tải về CSV.</li>
+      </ul>
+      <div class="hop">
+        <span class="nhan">Vì sao không có gợi ý hành động</span>
+        Màn này chỉ trình bày số và những phép so sánh tính được. Nó không viết sẵn nhận định kiểu
+        "nên tăng Reel" — vì đó là suy diễn, không phải phép tính, và bạn hiểu ngành hàng của mình
+        hơn bất kỳ công thức nào.
+      </div>
+    </section>
+
+    <section id="chi-so">
+      <h2>Hiểu các chỉ số</h2>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Chỉ số</th><th>Nghĩa là gì</th></tr></thead>
+          <tbody>
+            <tr><td><b>Người thấy</b></td><td>Số người đã nhìn thấy bài. Instagram trả về lượt tiếp cận thật; Facebook chỉ còn trả lượt xem.</td></tr>
+            <tr><td><b>Tương tác</b></td><td>Tổng thích, bình luận, chia sẻ và lưu.</td></tr>
+            <tr><td><b>Tỷ lệ tương tác</b></td><td>Tương tác chia cho người thấy. Đây là chỉ số chính, vì nó so được kênh nhỏ với kênh lớn.</td></tr>
+            <tr><td><b>lx / tc</b></td><td>Nhãn cho biết mẫu số đang tính trên lượt xem hay lượt tiếp cận.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="hop luuy">
+        <span class="nhan">Vì sao Facebook không còn lượt tiếp cận từng bài</span>
+        Từ phiên bản API v25, Facebook bỏ hẳn chỉ số này ở cấp bài đăng. Đây là thay đổi từ phía
+        Facebook, không phải thiếu sót của hệ thống. Nên với Facebook, mẫu số chuyển sang lượt xem.
+      </div>
+      <p>Tỷ lệ của một nhóm được tính bằng <b>tổng tương tác chia tổng người thấy</b>, không phải
+        trung bình các tỷ lệ con — cách sau sẽ khiến một bài nhỏ có tỷ lệ cao kéo lệch cả nhóm.</p>
+    </section>
+
+    <hr class="duong">
+
+    <section id="thu-vien">
+      <div class="eyebrow">Dữ liệu và cấu hình</div>
+      <h2>Thư viện nội dung</h2>
+      <p>Những thứ dùng đi dùng lại khi soạn bài. Ai cũng thêm sửa được, không cần chờ quản trị.</p>
+      <div class="the-luoi">
+        <div class="the"><h3>Pillar</h3><p>Chủ đề lớn của bài.</p></div>
+        <div class="the"><h3>Angle</h3><p>Góc kể chuyện.</p></div>
+        <div class="the"><h3>Chiến dịch</h3><p>Nhóm bài cùng một đợt truyền thông.</p></div>
+        <div class="the"><h3>Hashtag</h3><p>Bộ thẻ dùng lại, chèn một bấm.</p></div>
+        <div class="the"><h3>Mẫu caption</h3><p>Khung nội dung soạn sẵn.</p></div>
+      </div>
+    </section>
+
+    <section id="sheet">
+      <h2>Nguồn Google Sheet</h2>
+      <p>Dùng khi cần lên lịch nhiều bài một lúc. Bạn viết nội dung trong Google Sheet, hệ thống
+        tự đọc và tạo bài — <b>15 phút một lần, không cần bấm gì</b>.</p>
+      <ol class="buoc">
+        <li><b>Mở quyền xem công khai</b> cho bảng tính: Chia sẻ → Bất kỳ ai có đường liên kết → Người xem.</li>
+        <li><b>Dán liên kết</b> vào ô cấu hình trong màn Nguồn Google Sheet.</li>
+        <li><b>Ghép cột</b> — chọn cột nào trong sheet ứng với nội dung, giờ đăng, kênh, ảnh.</li>
+        <li><b>Xem trước</b> để kiểm tra rồi bật đồng bộ tự động.</li>
+      </ol>
+      <p>Cột <b>Mã bài</b> quan trọng: nó chống tạo trùng. Một mã đã nhập rồi thì lần sau bỏ qua,
+        kể cả khi bạn sửa dòng đó.</p>
+      <p>Cột ảnh có thể là <b>liên kết thư mục Google Drive</b>. Hệ thống tải ảnh trong thư mục đó
+        về đúng lúc đăng, nên bạn thay ảnh trong thư mục là bài sẽ đăng ảnh mới.</p>
+      <div class="hop luuy">
+        <span class="nhan">Tên kênh phải viết đúng</span>
+        Cột kênh trong sheet phải ghi đúng tên kênh như trong ERA Publisher. Màn Nguồn Google Sheet
+        có sẵn danh sách tên chuẩn để bạn sao chép.
+      </div>
+    </section>
+
+    <section id="kenh">
+      <h2>Kênh kết nối</h2>
+      <p>Các trang mạng xã hội bạn đang đăng bài lên, chia nhóm theo nền tảng. Mỗi thẻ hiện ảnh
+        đại diện thật của Page, kèm chấm trạng thái ở góc.</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Chấm màu</th><th>Nghĩa</th><th>Cần làm gì</th></tr></thead>
+          <tbody>
+            <tr><td>Xanh lá</td><td>Đang hoạt động</td><td>Không cần làm gì</td></tr>
+            <tr><td>Vàng</td><td>Sắp hết hạn</td><td>Nối lại trong vài ngày tới</td></tr>
+            <tr><td>Đỏ</td><td>Đã hết hạn</td><td>Nối lại ngay, bài sẽ lỗi cho tới khi nối</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Bấm <b>Kết nối Facebook</b> để nối thêm hoặc gia hạn. Nối lại không tạo kênh trùng, nó
+        cập nhật đúng kênh cũ.</p>
+      <p>Instagram <b>không nối riêng được</b> — nó đi kèm khi bạn nối Page Facebook đã liên kết
+        với tài khoản Instagram doanh nghiệp.</p>
+    </section>
+
+    <section id="cai-dat">
+      <h2>Cài đặt</h2>
+      <p>Chia hai mục.</p>
+
+      <h3>Tài khoản của tôi</h3>
+      <p>Tên hiển thị, mật khẩu, và chế độ tối. Ai cũng vào được, kể cả thành viên thường. Chế độ
+        tối chỉ áp dụng trên máy bạn đang dùng.</p>
+
+      <h3>Doanh nghiệp và hệ thống</h3>
+      <ul>
+        <li><b>Doanh nghiệp</b> — đổi tên, xem vai trò và số doanh nghiệp bạn đang lập.</li>
+        <li><b>Thành viên</b> — thêm người bằng email, đổi quyền, gỡ khỏi doanh nghiệp, gửi thư đặt lại mật khẩu.</li>
+        <li><b>Cấu hình hệ thống</b> — múi giờ, thư mục Drive lưu ảnh, khung giờ vàng, email nhận
+          cảnh báo, và tên chỉ số của Meta.</li>
+        <li><b>AI sinh ảnh</b> — chọn nhà cung cấp, dán khóa API, chọn model, đặt mô tả phong cách,
+          logo và watermark.</li>
+      </ul>
+      <div class="hop">
+        <span class="nhan">Khóa API an toàn tới đâu</span>
+        Khóa dán vào rồi thì <b>không đọc lại được từ trình duyệt</b> — kể cả bạn. Giao diện chỉ
+        cho biết đã có khóa hay chưa. Muốn đổi thì dán khóa mới đè lên.
+      </div>
+    </section>
+
+    <hr class="duong">
+
+    <section id="su-co">
+      <div class="eyebrow">Khi gặp trục trặc</div>
+      <h2>Xử lý sự cố</h2>
+
+      <h3>Bài báo lỗi</h3>
+      <p>Vào <b>Bài đăng</b>, bấm ô "Lỗi" để lọc. Mỗi bài hiện lý do cụ thể. Ba nguyên nhân hay gặp:</p>
+      <ul>
+        <li><b>Token hết hạn</b> — vào Kênh kết nối, bấm Kết nối Facebook để nối lại.</li>
+        <li><b>Ảnh quá lớn hoặc sai định dạng</b> — thay ảnh rồi thử lại.</li>
+        <li><b>Instagram cần ít nhất một ảnh</b> — Instagram không đăng bài chỉ có chữ.</li>
+      </ul>
+      <p>Sửa xong thì bấm <b>Thử lại</b> ngay trong bài đó.</p>
+
+      <h3>Không thấy số liệu</h3>
+      <p>Số liệu về sau khi hệ thống đi lấy, không tức thì. Bài vừa đăng xong chưa có số là bình
+        thường. Nếu sau một ngày vẫn trống, kiểm tra kênh còn hạn không.</p>
+
+      <h3>Sheet không tự tạo bài</h3>
+      <ul>
+        <li>Bảng tính đã mở quyền xem công khai chưa.</li>
+        <li>Tên kênh trong sheet có khớp tên trong hệ thống không.</li>
+        <li>Mã bài có bị trùng với bài đã nhập trước không.</li>
+      </ul>
+      <p>Màn Nguồn Google Sheet có bảng lỗi riêng, ghi rõ dòng nào hỏng vì sao.</p>
+    </section>
+
+    <section id="gioi-han">
+      <h2>Giới hạn đã biết</h2>
+      <p>Những điều hệ thống chưa làm được. Ghi ra đây để bạn không mất thời gian tìm.</p>
+      <div class="hop canh">
+        <span class="nhan">Instagram nhiều ảnh</span>
+        Bài nhiều ảnh đăng lên Instagram hiện <b>chỉ lên ảnh đầu tiên</b> và không báo gì. Facebook
+        thì đăng đủ. Đang trong danh sách sửa.
+      </div>
+      <ul>
+        <li><b>TikTok và Threads</b> chưa đăng được, mới chỉ có nhãn trong giao diện.</li>
+        <li><b>Xóa bài</b> chỉ xóa trong ERA Publisher, không xóa trên nền tảng.</li>
+        <li><b>Nút "AI Viết" caption</b> chưa hoạt động — hiện chỉ có AI tạo ảnh.</li>
+        <li><b>Facebook không còn trả lượt tiếp cận</b> cho từng bài, chỉ còn lượt xem.</li>
+        <li><b>Không xem lại được mật khẩu</b> của bất kỳ ai, chỉ gửi được thư đặt lại.</li>
+      </ul>
+    </section>
+  </main>
+
+  <aside class="toc" id="toc"><b>Trên trang này</b></aside>
+</div>
+
+<script>
+(() => {
+  const muc = [...document.querySelectorAll('main section')];
+  const sideLinks = [...document.querySelectorAll('#side a')];
+
+  // ----- Mục lục bên phải: dựng từ các h3 của mục đang xem -----
+  const toc = document.getElementById('toc');
+  function veToc(sec) {
+    toc.innerHTML = '<b>Trên trang này</b>';
+    const h = sec.querySelector('h1, h2');
+    if (h) {
+      const a = document.createElement('a');
+      a.href = '#' + sec.id; a.textContent = h.textContent; a.className = 'dang';
+      toc.appendChild(a);
+    }
+    sec.querySelectorAll('h3').forEach((h3, i) => {
+      if (!h3.id) h3.id = sec.id + '-h' + i;
+      const a = document.createElement('a');
+      a.href = '#' + h3.id; a.textContent = h3.textContent;
+      toc.appendChild(a);
+    });
+  }
+
+  // ----- Đánh dấu mục đang đọc -----
+  const theoDoi = new IntersectionObserver((es) => {
+    const hien = es.filter(e => e.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+    if (!hien) return;
+    const id = hien.target.id;
+    sideLinks.forEach(a => a.classList.toggle('dang', a.getAttribute('href') === '#' + id));
+    veToc(hien.target);
+  }, { rootMargin: '-70px 0px -65% 0px', threshold: 0 });
+  muc.forEach(s => theoDoi.observe(s));
+  if (muc[0]) veToc(muc[0]);
+
+  // ----- Tìm kiếm: quét tiêu đề và toàn văn từng mục -----
+  const kho = muc.flatMap(s => {
+    const ten = (s.querySelector('h1, h2') || {}).textContent || s.id;
+    const goc = [{ id: s.id, tieu: ten, phu: 'Mục', chu: s.textContent.toLowerCase() }];
+    const con = [...s.querySelectorAll('h3')].map((h3, i) => {
+      if (!h3.id) h3.id = s.id + '-h' + i;
+      let chu = h3.textContent;
+      let n = h3.nextElementSibling;
+      while (n && !/^H[123]$/.test(n.tagName)) { chu += ' ' + n.textContent; n = n.nextElementSibling; }
+      return { id: h3.id, tieu: h3.textContent, phu: ten, chu: chu.toLowerCase() };
+    });
+    return goc.concat(con);
+  });
+
+  const o = document.getElementById('q');
+  const bang = document.getElementById('kq');
+
+  // Bỏ dấu để gõ "hieu qua" vẫn ra "Hiệu quả"
+  const bo = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd');
+
+  function tim() {
+    const t = bo(o.value.trim().toLowerCase());
+    if (!t) { bang.classList.remove('mo'); bang.innerHTML = ''; return; }
+    const ra = kho
+      .map(m => {
+        const tieu = bo(m.tieu.toLowerCase()), chu = bo(m.chu);
+        let d = 0;
+        if (tieu.startsWith(t)) d = 100; else if (tieu.includes(t)) d = 60;
+        else if (chu.includes(t)) d = 20;
+        return { m, d };
+      })
+      .filter(x => x.d > 0)
+      .sort((a, b) => b.d - a.d)
+      .slice(0, 8);
+
+    bang.innerHTML = ra.length
+      ? ra.map(x => '<a href="#' + x.m.id + '"><span class="t">' + x.m.tieu + '</span><span class="s">' + x.m.phu + '</span></a>').join('')
+      : '<div class="rong">Không tìm thấy. Thử từ khác, ví dụ “hẹn giờ”, “token”, “sheet”.</div>';
+    bang.classList.add('mo');
+  }
+
+  o.addEventListener('input', tim);
+  o.addEventListener('focus', () => { if (o.value) tim(); });
+
+  // Điều hướng bằng bàn phím trong danh sách kết quả
+  let vt = -1;
+  o.addEventListener('keydown', (e) => {
+    const as = [...bang.querySelectorAll('a')];
+    if (e.key === 'Escape') { bang.classList.remove('mo'); o.blur(); return; }
+    if (!as.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      vt = (vt + (e.key === 'ArrowDown' ? 1 : as.length - 1)) % as.length;
+      as.forEach((a, i) => a.classList.toggle('chon', i === vt));
+      as[vt].scrollIntoView({ block: 'nearest' });
+    }
+    if (e.key === 'Enter') { e.preventDefault(); (as[vt] || as[0]).click(); }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!bang.contains(e.target) && e.target !== o) bang.classList.remove('mo');
+  });
+  bang.addEventListener('click', () => { bang.classList.remove('mo'); o.value = ''; });
+
+  // Phím / để nhảy vào ô tìm kiếm
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== o) { e.preventDefault(); o.focus(); }
+  });
+})();
+</script>
